@@ -5,20 +5,48 @@ class Node {
         this.right = null
     }
 }
+// const bananaNode = new Node(102); < Check if it works
+// console.log(bananaNode);
 
-const bananaNode = new Node(102)
 class BinaryTree {
     constructor(){
+        this.root = null
         // when a new Tree is made, it has a root property
     }
     insert(data){
-        // add a new Node to the tree, with data as the Node's data
-        // if the data is already in the tree, do not insert it
+        const node = new Node(data)
+
+        if (!this.root) return (this.root = node);
+        // Make new node the root if there is no tree / empty tree
+
+        let walker = this.root
+
+        while (true) { // use a while loop if you don't know how long you will loop. NOTE: Since its true, loop will be infinite. Create a break condition
+            if (walker.data === data) return // if a duplicate - break
+
+            let direction = data < walker.data ? "left" : "right";
+            // Logic for left and right are the same. So let's create a variable that controls where the node goes 
+            // this keeps our code DRY. 
+            if (!walker[direction]) return (walker[direction] = node);
+
+            walker = walker[direction];
+        }
     }
+
     search(val){
-        // search the Tree for a node with the given value
-        // if the node exists, return true
-        // if the node doesn't exist, return false
+        if (!this.root) return false // If empty, just return - nothing to search
+
+        let walker = this.root
+
+        while (walker) {
+            if(walker.data === val) return true;
+
+            let direction = val < walker.data ? "left" : "right";
+
+            walker = walker[direction];
+        }
+        return false
+    
     }
     size(node){
         // calculate the number of nodes in the tree, starting from the given node
@@ -26,9 +54,12 @@ class BinaryTree {
     getMax(){
         // return the maximum value stored in the tree
     }
-    height(node){
-        // calculate the maximum amount of nodes in any one path from the given node
-        // if not given a specific node, default to using the root node
+    height(node = this.root){
+        if (!this.root) return 0; // < No list / empty
+
+        let maxHeight = 0
+
+        return maxHeight
     }
     isBalanced(node){
         // return true or false based on whether the sub-tree starting at the given node is balanced
@@ -36,6 +67,14 @@ class BinaryTree {
         // A tree is balanced if all branches end within one level of each other.
     }
 }
+
+const binaryTree = new BinaryTree();
+binaryTree.insert(50)
+binaryTree.insert(34)
+binaryTree.insert(1)
+binaryTree.insert(90)
+// binaryTree.search(1)
+console.log(binaryTree.search(2))
 
 module.exports = {
     Node,

@@ -57,9 +57,23 @@ class BinaryTree {
     height(node = this.root){
         if (!this.root) return 0; // < No list / empty
 
-        let maxHeight = 0
+        let maxHeight = 0;
 
-        return maxHeight
+        const checker = (node, height) => {
+            if (node) {
+                maxHeight = Math.max(maxHeight, height)
+                // recursively call checker on left
+                checker(node.left, height + 1) // < plus 1 because we start at the root. 
+                // recursively call checker on right
+                checker(node.right, height + 1)
+            }
+
+        }
+        // Why is checker inside the method and not global?
+        // It's because of scope. If it was global it wouldn't have access to the variable 'maxHeight' which is in the scope of our height method. 
+
+        checker(node, 1)
+        return maxHeight;
     }
     isBalanced(node){
         // return true or false based on whether the sub-tree starting at the given node is balanced
@@ -74,7 +88,7 @@ binaryTree.insert(34)
 binaryTree.insert(1)
 binaryTree.insert(90)
 // binaryTree.search(1)
-console.log(binaryTree.search(2))
+console.log(binaryTree.height)
 
 module.exports = {
     Node,
